@@ -39,7 +39,7 @@ async function run() {
             const result = await bookItemCollection.insertOne(allItems);
             res.send(result);
         })
-
+        // Data Update
         app.put('/items/:id', async (req, res) => {
             const id = req.params.id;
             const updateQuantity = req.body;
@@ -49,8 +49,15 @@ async function run() {
                 $set: {
                     quantity: updateQuantity.quantity
                 }
-             }
+            }
             const result = await bookItemCollection.updateOne(filter, updatedDoc, options);
+            res.send(result);
+        })
+        // Delete Items
+        app.delete('/items/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await bookItemCollection.deleteOne(query);
             res.send(result);
         })
 
