@@ -60,6 +60,18 @@ async function run() {
             const result = await bookItemCollection.deleteOne(query);
             res.send(result);
         })
+        app.get('/myitems', async (req, res) => {
+            const email = req.query.email;
+            const query = { email: email }
+            const cursor = bookItemCollection.find(query);
+            const items = await cursor.toArray();
+            res.send(items)
+        });
+        app.post('/myitems', async (req, res) => {
+            const item = req.body;
+            const result = await bookItemCollection.insertOne(item);
+            res.send(result)
+        })
 
     }
     finally {
